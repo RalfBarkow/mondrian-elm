@@ -3,7 +3,6 @@ module Main exposing (main)
 import Browser
 import Element exposing (..)
 import Element.Background as Background
-import Element.Border as Border
 import Element.Events exposing (..)
 import Element.Font as Font
 import Element.Input as Input
@@ -12,6 +11,7 @@ import Html.Attributes exposing (attribute)
 import List exposing (head)
 
 
+main : Program () Model Msg
 main =
     Browser.element
         { init = init
@@ -21,6 +21,7 @@ main =
         }
 
 
+sandboxAttributeValues : List String
 sandboxAttributeValues =
     [ "allow-scripts"
     , "allow-forms"
@@ -36,6 +37,7 @@ type alias Model =
     { plugins : List Plugin, current : Maybe Plugin }
 
 
+pluginsConfig : List { name : String, src : String }
 pluginsConfig =
     [ { name = "Counter Demo", src = "http://localhost:8000/counter-demo.html" }
     , { name = "Http Request Demo", src = "http://localhost:8000/http-demo.html" }
@@ -74,10 +76,12 @@ pluginView plgin =
         )
 
 
+pluginMenuItem : Plugin -> Element Msg
 pluginMenuItem plugin =
     Input.button [] { onPress = Just (ShowPlugin plugin), label = text plugin.name }
 
 
+leftMenuPanel : List Plugin -> Element Msg
 leftMenuPanel plugins =
     column
         [ height fill
@@ -109,6 +113,7 @@ bodyPanel maybePlugin =
 -- view : Model -> Html msg
 
 
+view : { a | plugins : List Plugin, current : Maybe Plugin } -> Html Msg
 view model =
     layout [] <|
         column [ height fill, width fill ]
